@@ -9,6 +9,8 @@ import java.awt.*;
  */
 
 public class Main {
+
+  // define a method for creating the board and visualizing the results
  public static void Show(Chromosome ch){
 JFrame Board;
 JPanel squares[][] = new JPanel[8][8];
@@ -34,6 +36,7 @@ squares[i][8-Queens[i]].add(new JLabel(new ImageIcon("8Queen.png")));
 Board.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 Board.setVisible(true);
 }
+    // running the classes and show the solution
     public static void main(String[] args) {
     GeneticAlgorithm GA=new GeneticAlgorithm();
     Chromosome[] Ch=new Chromosome[1];
@@ -41,5 +44,5 @@ Board.setVisible(true);
     Show(Ch[0]);
     System.out.print(Ch[0].FitVal());
     }
-    
+
 }

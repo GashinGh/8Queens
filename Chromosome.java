@@ -5,12 +5,17 @@ import java.util.*;
  *
  * @author gashin gh
  */
+ //Design the Chromosome class for Genetic Algorithm
+
 public class Chromosome implements Comparable<Chromosome>{
     private int[] _Data=null;
     private int _FitVal;
+
+    //Getting the fitval value
     public int FitVal(){
     return _FitVal;
 }
+// The set method is for updating the chromosome's data
     public int Set(int[] NewData){
         if(NewData.length!=8) {System.out.println("Error-2"); return -2;}
         _Data= new int[8];
@@ -25,17 +30,18 @@ public class Chromosome implements Comparable<Chromosome>{
         return 0;
     }
 
-  
+    // copy the chromosome's
     public int Get(int[] RetData){
      if(RetData.length!=8) {System.out.println("Error-2"); return -2; }
      if(_Data==null) {System.out.println("Error-1"); return -1;}
      //RetData=_Data;
      System.arraycopy(_Data,0,RetData,0,8);
      return 0;
-     
-     
+
+
     }
-    
+
+    // calculate the FitVal based on the data
     private void EvalFitness(){
     _FitVal=0;
   for(int i=0; i<7;i++)
@@ -44,14 +50,14 @@ public class Chromosome implements Comparable<Chromosome>{
     if(j-i==Math.abs(_Data[i]-_Data[j])) _FitVal++;
   }
     }
+  // implement how to compare two instances of chromosome
+  public int compareTo(Chromosome ch){
 
-public int compareTo(Chromosome ch){
-
-if(_FitVal > ch.FitVal())
-return 1;
-else if(_FitVal < ch.FitVal())
-return -1;
-else
-return 0;
-}     
+  if(_FitVal > ch.FitVal())
+  return 1;
+  else if(_FitVal < ch.FitVal())
+  return -1;
+  else
+  return 0;
+  }
 }

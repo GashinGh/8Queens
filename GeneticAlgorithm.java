@@ -4,28 +4,32 @@ import java.util.*;
  *
  * @author gashin gh
  */
+
+ // Defining the class for Genetic Algorithm
 public class GeneticAlgorithm {
     Chromosome[] _Pop=null;
     int _PopSize=-1;
     int _MaxGen=-1;
     int _Pc=-1;
     int _Pm=-1;
+    // Get the parameters from the user
     public int SetGAParam (int PopSize, int MaxGen, byte Pc, byte Pm){
         if ( PopSize<1 || PopSize>200) { System.out.println("Error1"); return 1;}
         if (MaxGen <1 || MaxGen>10000) {System.out.println("Error2"); return 2;}
         if ( Pc<0 || Pc>100) {System.out.println("Error3"); return 3;}
-        if (Pm<0 || Pm>100) {System.out.println("Error4"); return 4;}  
+        if (Pm<0 || Pm>100) {System.out.println("Error4"); return 4;}
         _PopSize=PopSize;
         _MaxGen=MaxGen;
         _Pc=Pc;
         _Pm=Pm;
         return 0;
         }
+    // The next two function are used for randomly creating the chromosomes and connecting those to the Genetic Algorithm
     private int Initialize (){
         if( _PopSize==-1) { System.out.println("Error-1"); return -1;}
         _Pop=new Chromosome[_PopSize];
         for(int i=0; i<_PopSize;i++){
-        _Pop[i]=InitializeChromosome();    
+        _Pop[i]=InitializeChromosome();
         }
         return 0;
     }
@@ -37,10 +41,11 @@ public class GeneticAlgorithm {
         }
         ch.Set(data);
         return ch;
-            
+
     }
+    // One of the main action in Genectic Algorithm is CrossOver which is done using the following function
     private int CrossOver (){
-     if( _Pop==null) { System.out.println("Error1"); return 1;} 
+     if( _Pop==null) { System.out.println("Error1"); return 1;}
      if( _Pc==-1) { System.out.println("Error2"); return 2;}
     Chromosome[] temp=new Chromosome[_PopSize];
     System.arraycopy(_Pop,0,temp,0,_PopSize);
@@ -53,13 +58,13 @@ public class GeneticAlgorithm {
      for(int i=0; i<_PopSize;i++){
          q=(int)(Math.random()*101);
          if(q < _Pc){
-             mtp[i]=i; 
+             mtp[i]=i;
              c++;
          }
      }
      int d=_PopSize;
      int j,k;
-     
+
      for(int i=0;i<c/2;i++){
          j=(int)(Math.random()*_PopSize);
          k=(int)(Math.random()*_PopSize);
@@ -75,7 +80,8 @@ public class GeneticAlgorithm {
          mtp[j]=-1; mtp[k]=-1;
      }
      return 0;
-    } 
+    }
+    // Helper function for CrossOver, to do the action between two singel chromosomes
     private Chromosome[] CrossOver_Ch(Chromosome a,Chromosome b) {
        Chromosome[] ch=new Chromosome[2];
        int[] c1=new int[8]; int[]c2=new int[8]; int[]d1=new int[8]; int[]d2=new int[8];
@@ -94,14 +100,15 @@ public class GeneticAlgorithm {
        ch[1].Set(c2);
        return ch;
     }
+    // Mutation is another main action of GeneticAlgorithm that is done by the following function
     private int Mutation (){
-     if( _Pop==null) { System.out.println("Error1"); return 1;} 
+     if( _Pop==null) { System.out.println("Error1"); return 1;}
      if( _Pm==-1) { System.out.println("Error2"); return 2;}
     Chromosome[] temp=new Chromosome[2*_PopSize];
     System.arraycopy(_Pop,0,temp,0,2*_PopSize);
     _Pop=new Chromosome[3*_PopSize];
     System.arraycopy(temp,0,_Pop,0,2*_PopSize);
-    
+
     int d=_PopSize*2;
      for(int i=0; i<_PopSize;i++){
          int q=(int)(Math.random()*101);
@@ -118,7 +125,7 @@ public class GeneticAlgorithm {
      }
      return 0;
     }
-    
+    // The act of selection to choose beter chromosomes is done by Selection function
     private int Selection (){
         if( _Pop==null) { System.out.println("Error1"); return 1;}
         Chromosome[] temp=new Chromosome[_PopSize];
@@ -130,13 +137,13 @@ public class GeneticAlgorithm {
             }}
         FillNull(_Pop);
         Arrays.sort(_Pop);
-        //Arrays.sort(_Pop, Ordering.natural().nullsLast());
-       
+
         System.arraycopy(_Pop,0,temp,0,_PopSize);
         _Pop=new Chromosome[_PopSize];
         System.arraycopy(temp,0,_Pop,0,_PopSize);
         return 0;
     }
+      // The main function  for running the algorithm
       public int Run (Chromosome[] Result){
           SetGAParam(100, 100, (byte)40,(byte)40);
           int r = Initialize();
@@ -156,6 +163,7 @@ public class GeneticAlgorithm {
         Result[0]=ch;
         return 0;
 }
+      // Filling the null values in a Chromosomes
       private void FillNull(Chromosome[] a){
        for(int i=0; i<a.length; i++)
     {
@@ -169,4 +177,3 @@ public class GeneticAlgorithm {
     }
 }
     }
-
